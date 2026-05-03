@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skills & Competencies | Alex</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    /* --- CSS VARIABLES --- */
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --primary-light: rgba(79, 70, 229, 0.1);
+      --secondary: #ec4899;
+      --accent-teal: #14b8a6;
+      --success: #10b981;
+      
+      --bg-body: #f8fafc;
+      --bg-glass: rgba(255, 255, 255, 0.85);
+      --bg-card: #ffffff;
+      
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      
+      --border-color: rgba(226, 232, 240, 0.8);
+      --nav-height: 70px;
+      
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg-body: #0f172a;
+      --bg-glass: rgba(30, 41, 59, 0.85);
+      --bg-card: #1e293b;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.7;
+      transition: background-color 0.3s, color 0.3s;
+      position: relative;
+    }
+
+    .bg-blob { position: fixed; border-radius: 50%; filter: blur(90px); z-index: -1; opacity: 0.4; }
+    .blob-1 { top: -10%; right: -10%; width: 400px; height: 400px; background: var(--primary); }
+    .blob-2 { bottom: 20%; left: -10%; width: 300px; height: 300px; background: var(--secondary); }
+
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; letter-spacing: -0.02em; }
+    a { text-decoration: none; color: inherit; transition: var(--transition); }
+    ul { list-style: none; }
+    button { cursor: pointer; font-family: inherit; border: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .text-muted { color: var(--text-muted); }
+
+    /* --- NAVIGATION --- */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      height: var(--nav-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+    }
+    .logo { font-size: 1.5rem; font-weight: 700; }
+    .nav-links { display: flex; gap: 2.5rem; }
+    .nav-links a { font-weight: 500; color: var(--text-muted); font-size: 0.95rem; }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
+    .theme-toggle { font-size: 1.2rem; color: var(--text-main); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: var(--transition); }
+    .theme-toggle:hover { background: var(--border-color); }
+    .mobile-menu-btn { display: none; font-size: 1.5rem; color: var(--text-main); }
+
+    /* --- HERO --- */
+    .page-hero {
+      padding-top: calc(var(--nav-height) + 4rem);
+      padding-bottom: 4rem;
+      text-align: center;
+    }
+    .page-hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+    .page-hero p { font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+    /* --- LAYOUT --- */
+    .content { padding-bottom: 6rem; }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr; /* Left is wider */
+      gap: 2rem;
+    }
+
+    /* --- CARDS --- */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      height: 100%;
+    }
+    .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--primary); }
+
+    /* --- SKILL BARS (Left Column) --- */
+    .skill-category-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 10px;
+      color: var(--text-main);
+    }
+    .skill-category-title::before {
+      content:''; width: 4px; height: 20px; background: var(--primary); border-radius: 2px; display: block;
+    }
+
+    .skill-item { margin-bottom: 1.5rem; }
+    .skill-info { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.95rem; font-weight: 500; }
+    .skill-percent { color: var(--primary); }
+
+    .progress-track {
+      width: 100%; height: 8px; background: var(--border-color);
+      border-radius: 4px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--primary);
+      width: 0; /* Animate to width */
+      border-radius: 4px;
+      transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    /* Varied colors for bars */
+    .progress-fill.secondary { background: var(--secondary); }
+    .progress-fill.teal { background: var(--accent-teal); }
+
+    /* --- TOOLS (Right Column) --- */
+    .tools-container { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+    .tool-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 0.6rem 1rem;
+      background: var(--bg-body);
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    .tool-tag:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); background: var(--primary-light); }
+    .tool-tag i { font-size: 1.1rem; }
+
+    /* --- COMPETENCY CHECKLIST --- */
+    .competency-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 1.2rem;
+    }
+    .check-icon {
+      color: var(--success); background: rgba(16, 185, 129, 0.1);
+      padding: 4px; border-radius: 50%; flex-shrink: 0;
+    }
+    .comp-content h4 { font-size: 1rem; font-family: 'Inter', sans-serif; margin-bottom: 0.2rem; }
+    .comp-content p { font-size: 0.85rem; color: var(--text-muted); margin: 0; }
+
+    /* --- SUPERVISOR FORM (Bottom) --- */
+    .supervisor-section {
+      grid-column: span 2; /* Full width */
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(79, 70, 229, 0.02) 100%);
+      border-top: 4px solid var(--primary);
+    }
+    
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group label { font-size: 0.9rem; font-weight: 600; }
+    
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: 1rem;
+      background: var(--bg-body); border: 1px solid var(--border-color);
+      border-radius: 12px; font-family: inherit; color: var(--text-main);
+      transition: var(--transition);
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light);
+    }
+    
+    .btn-primary {
+      background: var(--primary); color: white;
+      padding: 1rem 2rem; border-radius: 12px;
+      font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: var(--transition); width: fit-content;
+    }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    /* --- FOOTER --- */
+    footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem; }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      .nav-links.active {
+        display: flex; flex-direction: column; position: absolute;
+        top: var(--nav-height); left: 0; width: 100%;
+        background: var(--bg-card); padding: 2rem;
+        box-shadow: var(--shadow-lg); border-bottom: 1px solid var(--border-color);
+      }
+      .skills-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .supervisor-section { grid-column: span 1; }
+      .page-hero h1 { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Decor -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="logo">Alex<span style="color: var(--primary)">.</span>N</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="projects.html">Portfolio</a></li>
+      <li><a href="reflections.html">Reflections</a></li>
+      <li><a href="skills.html" class="active">Skills</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme"><i class="ri-moon-line"></i></button>
+      <button class="mobile-menu-btn" id="menuBtn" aria-label="Toggle Menu"><i class="ri-menu-line"></i></button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <h1 data-aos="fade-up">Competencies & Skills</h1>
+      <p class="text-muted" data-aos="fade-up" data-aos-delay="100">
+        A practical overview of technical expertise, pedagogical proficiency, and professional tools.
+      </p>
+    </div>
+  </section>
+
+  <main class="container content" style="padding-top: 0;">
+    
+    <div class="skills-grid">
+      
+      <!-- LEFT COLUMN: Dynamic Skills (Progress Bars) -->
+      <div data-aos="fade-right">
+        <div class="card">
+          <!-- This container will be filled by JavaScript -->
+          <div id="skills-render"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Tools & Competencies -->
+      <div class="sidebar-column" style="display: flex; flex-direction: column; gap: 2rem;">
+        
+        <!-- Tools & Environment -->
+        <div class="card" data-aos="fade-left">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem;">
+            <i class="ri-tools-line" style="font-size: 1.2rem; color: var(--primary);"></i>
+            <h3 style="margin: 0; font-size: 1.1rem;">Tools & Environment</h3>
+          </div>
+          <div class="tools-container">
+             <span class="tool-tag"><i class="ri-github-fill"></i> GitHub</span>
+             <span class="tool-tag"><i class="ri-terminal-box-line"></i> VS Code</span>
+             <span class="tool-tag"><i class="ri-wordpress-line"></i> WordPress</span>
+             <span class="tool-tag"><i class="ri-google-line"></i> Workspace</span>
+             <span class="tool-tag"><i class="ri-video-line"></i> H5P</span>
+             <span class="tool-tag"><i class="ri-presentation-line"></i> Moodle</span>
+             <span class="tool-tag"><i class="ri-database-2-line"></i> MySQL</span>
+             <span class="tool-tag"><i class="ri-film-line"></i> OBS Studio</span>
+          </div>
+        </div>
+
+        <!-- Professional Competencies -->
+        <div class="card" data-aos="fade-left" data-aos-delay="100">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem;">
+            <i class="ri-user-star-line" style="font-size: 1.2rem; color: var(--primary);"></i>
+            <h3 style="margin: 0; font-size: 1.1rem;">Professional Competencies</h3>
+          </div>
+          
+          <div class="competency-item">
+            <i class="ri-checkbox-circle-fill check-icon"></i>
+            <div class="comp-content">
+              <h4>Curriculum Development</h4>
+              <p>Designing CBC-aligned course outlines and learning materials.</p>
+            </div>
+          </div>
+          
+          <div class="competency-item">
+            <i class="ri-checkbox-circle-fill check-icon"></i>
+            <div class="comp-content">
+              <h4>Student Assessment</h4>
+              <p>Implementing formative & summative evaluation strategies.</p>
+            </div>
+          </div>
+          
+          <div class="competency-item">
+            <i class="ri-checkbox-circle-fill check-icon"></i>
+            <div class="comp-content">
+              <h4>Laboratory Management</h4>
+              <p>Maintaining networking & hardware labs and safety standards.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SUPERVISOR ASSESSMENT SECTION -->
+      <section class="card supervisor-section" data-aos="fade-up">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+          <div style="background: var(--primary-light); padding: 10px; border-radius: 50%;">
+            <i class="ri-file-user-line" style="font-size: 1.5rem; color: var(--primary);"></i>
+          </div>
+          <div>
+            <h3 style="margin: 0;">Supervisor Assessment</h3>
+            <p class="text-muted" style="margin:0; font-size: 0.9rem;">Official feedback on demonstrated competencies.</p>
+          </div>
+        </div>
+        
+        <form action="https://formspree.io/f/xqeyrrzr" method="POST">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Supervisor Name</label>
+              <input type="text" name="supervisor_name" class="form-input" placeholder="Dr. Jane Doe" required>
+            </div>
+            <div class="form-group">
+              <label>Rating</label>
+              <select name="rating" class="form-select" required>
+                <option value="" disabled selected>Select Performance Level</option>
+                <option value="Excellent">Excellent (Above Expectations)</option>
+                <option value="Very Good">Very Good (Meets Expectations)</option>
+                <option value="Good">Good (Satisfactory)</option>
+                <option value="Needs Improvement">Needs Improvement</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label>Comments</label>
+            <textarea name="feedback" rows="4" class="form-textarea" placeholder="Specific feedback on skill demonstration, classroom management, or professionalism..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary">
+            <i class="ri-send-plane-line"></i> Submit Assessment
+          </button>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">&copy; 2024 Alex N. Department of Computing and Informatics.</div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // 1. Initialize AOS
+    AOS.init({ duration: 800, once: true, offset: 50 });
+
+    // 2. Theme & Menu Logic (Standard)
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlElement = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    htmlElement.setAttribute('data-theme', savedTheme);
+    themeToggle.innerHTML = savedTheme === 'dark' ? '<i class="ri-sun-line"></i>' : '<i class="ri-moon-line"></i>';
+    
+    themeToggle.addEventListener('click', () => {
+      const newTheme = htmlElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      htmlElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      themeToggle.innerHTML = newTheme === 'dark' ? '<i class="ri-sun-line"></i>' : '<i class="ri-moon-line"></i>';
+    });
+
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('nav-links');
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      menuBtn.querySelector('i').className = navLinks.classList.contains('active') ? 'ri-close-line' : 'ri-menu-line';
+    });
+
+    // 3. DYNAMIC SKILLS RENDERING (Practical Solution)
+    // Edit the data below to update your skills!
+    const skillsData = [
+      {
+        category: "Technical Expertise",
+        skills: [
+          { name: "Python Programming", level: 90, color: "primary" },
+          { name: "Networking (CCNA)", level: 85, color: "primary" },
+          { name: "Database Management (SQL)", level: 80, color: "primary" },
+          { name: "Web Development (MERN)", level: 75, color: "primary" },
+          { name: "Computer Hardware Servicing", level: 85, color: "primary" }
+        ]
+      },
+      {
+        category: "Pedagogical Skills",
+        skills: [
+          { name: "Curriculum Design (CBC)", level: 95, color: "teal" },
+          { name: "Instructional Media (H5P)", level: 85, color: "teal" },
+          { name: "Student Assessment", level: 80, color: "teal" },
+          { name: "Classroom Management", level: 88, color: "teal" }
+        ]
+      },
+      {
+        category: "Soft Skills",
+        skills: [
+          { name: "Communication", level: 90, color: "secondary" },
+          { name: "Leadership", level: 85, color: "secondary" },
+          { name: "Problem Solving", level: 95, color: "secondary" }
+        ]
+      }
+    ];
+
+    const renderContainer = document.getElementById('skills-render');
+
+    function renderSkills() {
+      let html = '';
+
+      skillsData.forEach((group, index) => {
+        let skillsHtml = '';
+        
+        group.skills.forEach(skill => {
+          skillsHtml += `
+            <div class="skill-item">
+              <div class="skill-info">
+                <span>${skill.name}</span>
+                <span class="skill-percent">${skill.level}%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill ${skill.color}" style="width: 0%" data-width="${skill.level}%"></div>
+              </div>
+            </div>
+          `;
+        });
+
+        html += `
+          <div class="skill-category-wrapper" style="margin-bottom: 2rem;">
+            <h3 class="skill-category-title">${group.category}</h3>
+            ${skillsHtml}
+          </div>
+        `;
+      });
+
+      renderContainer.innerHTML = html;
+
+      // Trigger animations after render
+      setTimeout(() => {
+        const bars = document.querySelectorAll('.progress-fill');
+        bars.forEach(bar => {
+          bar.style.width = bar.getAttribute('data-width');
+        });
+      }, 300);
+    }
+
+    // Run on load
+    renderSkills();
+  </script>
+</body>
+</html>

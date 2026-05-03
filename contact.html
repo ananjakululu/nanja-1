@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Alex</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Page Specific Styles (Grid Layout) -->
+  <style>
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .info-card {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 1rem;
+      transition: 0.3s;
+    }
+    
+    .info-card:hover {
+      transform: translateX(5px);
+    }
+
+    .info-icon {
+      width: 50px; height: 50px; border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="logo">Alex<span style="color: var(--primary)">.</span>N</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="reflections.html">Reflections</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:15px;">
+      <button class="theme-toggle" id="themeToggle"><i class="ri-moon-line"></i></button>
+      <button class="mobile-menu-btn" id="menuBtn"><i class="ri-menu-line"></i></button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="page-hero" style="text-align: center; padding: 8rem 0 4rem; border-bottom: 1px solid var(--border-color); margin-bottom: 4rem;">
+    <div class="container">
+      <h1 data-aos="fade-up">Get In Touch</h1>
+      <p class="text-muted" style="max-width: 600px; margin: 0 auto;" data-aos="fade-up" data-aos-delay="100">
+        Have a project in mind or need consultation on curriculum development? I'd love to hear from you.
+      </p>
+    </div>
+  </section>
+
+  <main class="container content" style="padding-top: 0;">
+    
+    <div class="contact-grid">
+      <!-- General Contact Form -->
+      <div class="card" data-aos="fade-right">
+        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Send a Message</h3>
+        <form action="https://formspree.io/f/xqeyrrzr" method="POST">
+          <div class="form-group">
+            <input type="text" class="form-input" name="name" placeholder="Your Name" required>
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-input" name="_replyto" placeholder="Your Email" required>
+          </div>
+          <div class="form-group">
+            <textarea class="form-input" name="message" rows="5" placeholder="Your Message" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="ri-send-plane-line"></i> Send Message</button>
+        </form>
+      </div>
+
+      <!-- Contact Info & Map -->
+      <div data-aos="fade-left">
+        
+        <div class="card info-card" style="border-left: 4px solid var(--primary);">
+          <div class="info-icon" style="background: var(--primary-light); color: var(--primary);">
+            <i class="ri-mail-line"></i>
+          </div>
+          <div>
+            <strong style="display: block; margin-bottom: 2px;">Email</strong>
+            <a href="mailto:alex@example.com" class="text-muted" style="font-size: 0.9rem;">alex@example.com</a>
+          </div>
+        </div>
+
+        <div class="card info-card" style="border-left: 4px solid var(--secondary);">
+          <div class="info-icon" style="background: var(--secondary-light); color: var(--secondary);">
+            <i class="ri-linkedin-box-line"></i>
+          </div>
+          <div>
+            <strong style="display: block; margin-bottom: 2px;">LinkedIn</strong>
+            <a href="https://linkedin.com/in/yourusername" target="_blank" class="text-muted" style="font-size: 0.9rem;">linkedin.com/in/username</a>
+          </div>
+        </div>
+
+        <div class="card info-card" style="border-left: 4px solid var(--accent);">
+          <div class="info-icon" style="background: #fee2e2; color: var(--accent);">
+            <i class="ri-map-pin-line"></i>
+          </div>
+          <div>
+            <strong style="display: block; margin-bottom: 2px;">Location</strong>
+            <span class="text-muted" style="font-size: 0.9rem;">Bushiangala, Kenya</span>
+          </div>
+        </div>
+
+        <!-- Optional: Map Embed -->
+        <div class="card" style="margin-top: 1.5rem; padding: 0; overflow: hidden; height: 200px;">
+           <iframe 
+             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7573746824785!2d34.74847631475378!3d0.2823329997929176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMTYnNTYuNCJOIDM0wrA0NCc0OS4wIkU!5e0!3m2!1sen!2ske!4v1620743875865!5m2!1sen!2ske" 
+             width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+           </iframe>
+        </div>
+
+      </div>
+    </div>
+    
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Alex. TVET Teaching Practice Portfolio.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
