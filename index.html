@@ -319,7 +319,7 @@
       .nav-links { display: none; }
       .mobile-menu-btn { display: block; }
       
-      /* Mobile Nav Drawer would go here in full implementation */
+      /* Mobile Nav Drawer */
       .nav-links.active {
         display: flex;
         flex-direction: column;
@@ -375,7 +375,6 @@
               Technical <span class="text-primary">Educator</span> & <span class="text-secondary">Innovator</span>
             </h2>
             
-            <!-- UPDATED: Description now includes Education details -->
             <p class="hero-description">
                 Currently pursuing a <strong>Bachelor of Technology Education (ICT Option)</strong> at The Open University of Kenya. 
                 I build bridges between complex technical concepts and effective teaching strategies. Specializing in <strong>Curriculum Design</strong>, <strong>EdTech Integration</strong>, and <strong>Quality Assurance</strong>.
@@ -398,9 +397,11 @@
           
           <div class="hero-img" data-aos="fade-left" data-aos-delay="100">
             <div class="image-wrapper">
-                <img src="profile.jpg" ... >
+                <!-- AUTOMATIC FIX: This loads profile.jpg, or a generated avatar if the file is missing -->
+                <img src="profile.jpg" 
                      alt="Alex Nanjakululu Portrait" 
-                     class="hero-avatar">
+                     class="hero-avatar"
+                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Alex+Nanjakululu&background=4f46e5&color=fff';">
                 <div class="image-decoration"></div>
             </div>
           </div>
