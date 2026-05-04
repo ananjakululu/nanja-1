@@ -301,6 +301,27 @@
     .bento-cta h3 { font-size: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; }
     .bento-cta p { color: rgba(255,255,255,0.8); margin-bottom: 1.5rem; max-width: 250px; margin-left: auto; margin-right: auto; }
     
+    /* --- DEBUG BOX (NEW) --- */
+    #debug-box {
+      position: fixed;
+      bottom: 20px; right: 20px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-family: monospace;
+      z-index: 3000;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .debug-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-green { background: #22c55e; }
+    .dot-yellow { background: #eab308; }
+    .dot-red { background: #ef4444; }
+
     /* --- FOOTER --- */
     footer { padding: 3rem 0; border-top: 1px solid var(--border-color); margin-top: 4rem; }
     .footer-content { display: flex; justify-content: space-between; align-items: center; }
@@ -330,6 +351,8 @@
         box-shadow: var(--shadow-lg);
         border-bottom: 1px solid var(--border-color);
       }
+      /* Hide debug box on mobile to avoid clutter */
+      #debug-box { display: none; }
     }
   </style>
 </head>
@@ -337,6 +360,12 @@
 
   <!-- Scroll Progress Bar -->
   <div id="progress-bar"></div>
+
+  <!-- DEBUG BOX (Visible to help you fix the file path) -->
+  <div id="debug-box">
+    <div id="debug-dot" class="debug-dot"></div>
+    <span id="debug-text">Checking image...</span>
+  </div>
 
   <!-- Background Decorative Shapes -->
   <div class="bg-shape shape-1"></div>
@@ -397,12 +426,11 @@
           
           <div class="hero-img" data-aos="fade-left" data-aos-delay="100">
             <div class="image-wrapper">
-                <!-- AUTOMATIC FIX: This loads profile.jpg, or a generated avatar if the file is missing -->
+                <!-- We use a placeholder src first. JS will replace it immediately -->
                 <img id="heroImage" 
-                     src="profile.jpg" 
+                     src="https://ui-avatars.com/api/?name=Alex+Nanjakululu&background=4f46e5&color=fff" 
                      alt="Alex Nanjakululu Portrait" 
-                     class="hero-avatar"
-                     onerror="fixImage(this)">
+                     class="hero-avatar">
                 <div class="image-decoration"></div>
             </div>
           </div>
@@ -502,6 +530,49 @@
       offset: 100
     });
 
+    // --- IMAGE DEBUG LOGIC (ROBUST FIX) ---
+    const debugText = document.getElementById('debug-text');
+    const debugDot = document.getElementById('debug-dot');
+    const heroImage = document.getElementById('heroImage');
+
+    function updateDebug(msg, colorClass) {
+      debugText.innerText = msg;
+      debugDot.className = 'debug-dot ' + colorClass;
+      console.log(`[IMAGE DEBUG] ${msg}`);
+    }
+
+    // 1. Try loading profile.jpg (Local Root)
+    function checkImage() {
+      const testImg = new Image();
+      testImg.onload = function() {
+        updateDebug("Loaded: profile.jpg", "dot-green");
+        // If found, update the actual image src
+        heroImage.src = "profile.jpg"; 
+      };
+      
+      testImg.onerror = function() {
+        updateDebug("Failed: profile.jpg. Trying assets/profile.jpg...", "dot-yellow");
+        // 2. Try assets folder
+        const testImg2 = new Image();
+        testImg2.onload = function() {
+          updateDebug("Loaded: assets/profile.jpg", "dot-green");
+          heroImage.src = "assets/profile.jpg";
+        };
+        testImg2.onerror = function() {
+          updateDebug("Failed: assets/profile.jpg. Using Online Avatar.", "dot-red");
+          // 3. Fallback
+          heroImage.src = "https://ui-avatars.com/api/?name=Alex+Nanjakululu&background=4f46e5&color=fff";
+          heroImage.style.borderRadius = "20px"; // Apply radius to avatar
+        };
+        testImg2.src = "assets/profile.jpg";
+      };
+      
+      testImg.src = "profile.jpg";
+    }
+
+    // Run Check
+    checkImage();
+
     // --- Theme Toggle Logic ---
     const themeToggle = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
@@ -590,35 +661,6 @@
     }, { threshold: 0.5 });
 
     observer.observe(counterElement);
-
-    // --- SMART IMAGE FIX SCRIPT ---
-    function fixImage(img) {
-      // Stop infinite loops if the fallback image also fails
-      img.onerror = null; 
-
-      const currentSrc = img.src;
-      
-      // 1. Log the error so you can see what is happening (Press F12 -> Console)
-      console.warn(`[Image Fix] Failed to load: ${currentSrc}`);
-
-      // 2. Attempt 1: Look in 'assets' folder
-      if (currentSrc.includes('profile.jpg')) {
-        console.log("Attempting: assets/profile.jpg");
-        img.src = "assets/profile.jpg";
-      } 
-      // 3. Attempt 2: Look for Capitalized name (Common on Windows/Mac)
-      else if (currentSrc.includes('assets/profile.jpg')) {
-        console.log("Attempting: assets/Profile.jpg");
-        img.src = "assets/Profile.jpg";
-      }
-      // 4. Final Fallback: Use Online Avatar
-      else {
-        console.log("Fallback: Loading generated avatar.");
-        img.src = "https://ui-avatars.com/api/?name=Alex+Nanjakululu&background=4f46e5&color=fff";
-        // Optional: Add rounded corners to the avatar
-        img.style.borderRadius = "20px"; 
-      }
-    }
   </script>
 </body>
 </html>
