@@ -103,7 +103,7 @@
       justify-content: space-between;
       position: fixed;
       top: 0; width: 100%;
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255,255,255, 0.8);
       backdrop-filter: blur(10px);
       z-index: 1000;
       border-bottom: 1px solid var(--border-color);
@@ -319,7 +319,7 @@
       .nav-links { display: none; }
       .mobile-menu-btn { display: block; }
       
-      /* Mobile Nav Drawer would go here in full implementation */
+      /* Mobile Nav Drawer */
       .nav-links.active {
         display: flex;
         flex-direction: column;
@@ -375,7 +375,6 @@
               Technical <span class="text-primary">Educator</span> & <span class="text-secondary">Innovator</span>
             </h2>
             
-            <!-- UPDATED: Description now includes Education details -->
             <p class="hero-description">
                 Currently pursuing a <strong>Bachelor of Technology Education (ICT Option)</strong> at The Open University of Kenya. 
                 I build bridges between complex technical concepts and effective teaching strategies. Specializing in <strong>Curriculum Design</strong>, <strong>EdTech Integration</strong>, and <strong>Quality Assurance</strong>.
@@ -398,9 +397,12 @@
           
           <div class="hero-img" data-aos="fade-left" data-aos-delay="100">
             <div class="image-wrapper">
-                <img src="assets/profile.jpg" 
+                <!-- AUTOMATIC FIX: This loads profile.jpg, or a generated avatar if the file is missing -->
+                <img id="heroImage" 
+                     src="profile.jpg" 
                      alt="Alex Nanjakululu Portrait" 
-                     class="hero-avatar">
+                     class="hero-avatar"
+                     onerror="fixImage(this)">
                 <div class="image-decoration"></div>
             </div>
           </div>
@@ -588,6 +590,35 @@
     }, { threshold: 0.5 });
 
     observer.observe(counterElement);
+
+    // --- SMART IMAGE FIX SCRIPT ---
+    function fixImage(img) {
+      // Stop infinite loops if the fallback image also fails
+      img.onerror = null; 
+
+      const currentSrc = img.src;
+      
+      // 1. Log the error so you can see what is happening (Press F12 -> Console)
+      console.warn(`[Image Fix] Failed to load: ${currentSrc}`);
+
+      // 2. Attempt 1: Look in 'assets' folder
+      if (currentSrc.includes('profile.jpg')) {
+        console.log("Attempting: assets/profile.jpg");
+        img.src = "assets/profile.jpg";
+      } 
+      // 3. Attempt 2: Look for Capitalized name (Common on Windows/Mac)
+      else if (currentSrc.includes('assets/profile.jpg')) {
+        console.log("Attempting: assets/Profile.jpg");
+        img.src = "assets/Profile.jpg";
+      }
+      // 4. Final Fallback: Use Online Avatar
+      else {
+        console.log("Fallback: Loading generated avatar.");
+        img.src = "https://ui-avatars.com/api/?name=Alex+Nanjakululu&background=4f46e5&color=fff";
+        // Optional: Add rounded corners to the avatar
+        img.style.borderRadius = "20px"; 
+      }
+    }
   </script>
 </body>
 </html>
